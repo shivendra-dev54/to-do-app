@@ -1,4 +1,5 @@
 import { ApiResponse } from "../utils/ApiResponse";
+import { corsHeaders } from "../utils/cors";
 
 export const healthCheckController = () => {
 	return Response.json(
@@ -7,6 +8,12 @@ export const healthCheckController = () => {
 			"server working...",
 			true,
 			{}
-		).toString()
+		).toString(),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders,
+        },
+      }
 	);
 }

@@ -5,6 +5,7 @@ import type { customRequest } from "../Interfaces/customRequests.interface";
 import { db } from "../db";
 import { tasks } from "../db/schemas/task.schema";
 import { ApiResponse } from "../utils/ApiResponse";
+import { corsHeaders } from "../utils/cors";
 
 export const getTasksController = asyncHandler(
   authHandler(async (req: customRequest) => {
@@ -21,7 +22,13 @@ export const getTasksController = asyncHandler(
         "Tasks fetched successfully",
         true,
         userTasks
-      ).toString()
+      ).toString(),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders,
+        },
+      }
     );
   })
 );

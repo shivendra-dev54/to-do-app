@@ -7,8 +7,7 @@ export const tasks = mysqlTable('tasks', {
     .notNull()
     .autoincrement(),
   title: varchar("title", { length: 100 })
-    .notNull()
-    .unique(),
+    .notNull(),
   body: varchar("body", { length: 500 })
     .notNull(),
   user_id: int("user_id")

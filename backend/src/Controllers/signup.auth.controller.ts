@@ -6,6 +6,7 @@ import { ApiResponse } from "../utils/ApiResponse";
 import type { IUserSchema } from "../Interfaces/userSchema.interface";
 import { hashPassword } from "../utils/hashPassword";
 import { asyncHandler } from "../Middleware/asyncHandler.middleware";
+import { corsHeaders } from "../utils/cors";
 
 
 export const signUpController = asyncHandler(
@@ -25,7 +26,13 @@ export const signUpController = asyncHandler(
           "All fields are mandatory.",
           false,
           body
-        ).toString()
+        ).toString(),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
       );
     }
 
@@ -45,7 +52,13 @@ export const signUpController = asyncHandler(
             "username": usersWithSameEmail[0]?.username,
             "email": usersWithSameEmail[0]?.email
           }
-        ).toString()
+        ).toString(),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
       );
     }
 
@@ -65,7 +78,13 @@ export const signUpController = asyncHandler(
             "username": usersWithSameUsername[0]?.username,
             "email": usersWithSameUsername[0]?.email
           }
-        ).toString()
+        ).toString(),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
       );
     }
 
@@ -93,7 +112,13 @@ export const signUpController = asyncHandler(
           "username": username,
           "email": email
         }
-      ).toString()
+      ).toString(),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders,
+        },
+      }
     );
   }
 );

@@ -2,6 +2,7 @@ import * as jose from "jose";
 import { ApiResponse } from "../utils/ApiResponse";
 import type { AuthUser } from "../Interfaces/authUser.interface";
 import type { customRequest } from "../Interfaces/customRequests.interface";
+import { corsHeaders } from "../utils/cors";
 
 export interface AuthenticatedRequest extends Request {
   user: AuthUser;
@@ -21,7 +22,13 @@ export const authHandler =
               401,
               "Access token missing",
               false,
-              null).toString()
+              null).toString(),
+            {
+              headers: {
+                "Content-Type": "application/json",
+                ...corsHeaders,
+              },
+            }
           );
         }
 
@@ -36,13 +43,20 @@ export const authHandler =
 
         return await controller(req as any);
       } catch (err) {
+        console.log(err);
         return Response.json(
           new ApiResponse(
             401,
             "Invalid or expired access token",
             false,
             { error: err instanceof Error ? err.message : err }
-          ).toString()
+          ).toString(),
+          {
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+            },
+          }
         );
       }
     };

@@ -6,13 +6,20 @@ import { getTaskIdFromUrl } from "../utils/getTaskIdFromUrl";
 import type { customRequest } from "../Interfaces/customRequests.interface";
 import { asyncHandler } from "../Middleware/asyncHandler.middleware";
 import { authHandler } from "../Middleware/auth.middleware";
+import { corsHeaders } from "../utils/cors";
 
 export const deleteTaskController = asyncHandler(
   authHandler(async (req: customRequest) => {
     const taskId = getTaskIdFromUrl(req);
     if (!taskId) {
       return Response.json(
-        new ApiResponse(400, "Invalid task id", false, null).toString()
+        new ApiResponse(400, "Invalid task id", false, null).toString(),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
       );
     }
 
@@ -36,7 +43,13 @@ export const deleteTaskController = asyncHandler(
           "Task not found or not authorized",
           false,
           null
-        ).toString()
+        ).toString(),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
       );
     }
 
@@ -50,7 +63,13 @@ export const deleteTaskController = asyncHandler(
         "Task deleted successfully",
         true,
         null
-      ).toString()
+      ).toString(),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders,
+        },
+      }
     );
   })
 );

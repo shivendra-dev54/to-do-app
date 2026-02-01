@@ -8,6 +8,7 @@ import type { customRequest } from "../Interfaces/customRequests.interface";
 import { getAccessToken } from "../utils/getAccessToken";
 import { getRefreshToken } from "../utils/getRefreshToken";
 import { asyncHandler } from "../Middleware/asyncHandler.middleware";
+import { corsHeaders } from "../utils/cors";
 
 export const signInController = asyncHandler(
   async (req: customRequest) => {
@@ -25,7 +26,13 @@ export const signInController = asyncHandler(
           "invalid email or password",
           false,
           body
-        ).toString()
+        ).toString(),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
       );
     }
 
@@ -41,7 +48,13 @@ export const signInController = asyncHandler(
           "invalid email or password",
           false,
           {}
-        ).toString()
+        ).toString(),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
       );
     }
 
@@ -54,7 +67,13 @@ export const signInController = asyncHandler(
           "password does not match.",
           false,
           {}
-        ).toString()
+        ).toString(),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
       );
     }
 
@@ -98,7 +117,13 @@ export const signInController = asyncHandler(
           "username": userToBeLoggedIn[0].username,
           "email": userToBeLoggedIn[0].email
         }
-      ).toString()
+      ).toString(),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders,
+        },
+      }
     );
   }
 );

@@ -1,0 +1,1 @@
+ALTER TABLE `tasks` DROP INDEX `tasks_title_unique`;

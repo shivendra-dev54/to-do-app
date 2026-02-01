@@ -7,22 +7,35 @@ import { db } from "../db";
 import { getTaskIdFromUrl } from "../utils/getTaskIdFromUrl";
 import { authHandler } from "../Middleware/auth.middleware";
 import { tasks } from "../db/schemas/task.schema";
+import { corsHeaders } from "../utils/cors";
 
 export const updateTaskController = asyncHandler(
   authHandler(async (req: customRequest) => {
     const taskId = getTaskIdFromUrl(req);
     if (!taskId) {
       return Response.json(
-        new ApiResponse(400, "Invalid task id", false, null).toString()
+        new ApiResponse(400, "Invalid task id", false, null).toString(),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
       );
     }
 
     const { id: userId } = req.user!;
-    const { title, body } = (await req.json()) as Partial<createTaskBody>;
+    const { title, body, status } = (await req.json()) as Partial<createTaskBody>;
 
     if (!title && !body) {
       return Response.json(
-        new ApiResponse(400, "Nothing to update", false, null).toString()
+        new ApiResponse(400, "Nothing to update", false, null).toString(),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
       );
     }
 
@@ -44,7 +57,13 @@ export const updateTaskController = asyncHandler(
           "Task not found or not authorized",
           false,
           null
-        ).toString()
+        ).toString(),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
       );
     }
 
@@ -53,6 +72,7 @@ export const updateTaskController = asyncHandler(
       .set({
         ...(title && { title }),
         ...(body && { body }),
+        ...(status && { status }),
         updated_at: new Date()
       })
       .where(eq(tasks.id, taskId));
@@ -63,7 +83,13 @@ export const updateTaskController = asyncHandler(
         "Task updated successfully",
         true,
         null
-      ).toString()
+      ).toString(),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders,
+        },
+      }
     );
   })
 );

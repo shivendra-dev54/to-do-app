@@ -6,6 +6,7 @@ import type { customRequest } from "../Interfaces/customRequests.interface";
 import { getAccessToken } from "../utils/getAccessToken";
 import { getRefreshToken } from "../utils/getRefreshToken";
 import { asyncHandler } from "../Middleware/asyncHandler.middleware";
+import { corsHeaders } from "../utils/cors";
 
 export const refreshTokenController = asyncHandler(
   async (req: customRequest) => {
@@ -20,7 +21,13 @@ export const refreshTokenController = asyncHandler(
           {
             "token": null
           }
-        )
+        ).toString(),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
       );
     }
 
@@ -36,7 +43,13 @@ export const refreshTokenController = asyncHandler(
           "invalid refresh token",
           false,
           {}
-        )
+        ).toString(),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
       );
     }
 
@@ -70,7 +83,13 @@ export const refreshTokenController = asyncHandler(
         "token refreshed",
         true,
         {}
-      )
+      ).toString(),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders,
+        },
+      }
     );
   }
 );

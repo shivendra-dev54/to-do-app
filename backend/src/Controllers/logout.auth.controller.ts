@@ -4,6 +4,7 @@ import { users } from "../db/schemas/user.schema";
 import { ApiResponse } from "../utils/ApiResponse";
 import type { customRequest } from "../Interfaces/customRequests.interface";
 import { asyncHandler } from "../Middleware/asyncHandler.middleware";
+import { corsHeaders } from "../utils/cors";
 
 export const logoutController = asyncHandler(
   async (req: customRequest) => {
@@ -32,7 +33,13 @@ export const logoutController = asyncHandler(
         "logged out successfully",
         true,
         {}
-      )
+      ).toString(),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders,
+        },
+      }
     );
   }
 );
