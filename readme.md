@@ -75,6 +75,28 @@ VITE_BACKEND_URL=http://localhost:3000
 ```
 
 ---
+## Docker setup:
+
+To dockeize the app:
+
+```bash
+cd backend/
+docker build -t to-do-backend:1.0.0 .
+
+cd ..
+cp backend/.env .env
+
+cd frontend/
+bun run build
+docker build -t to-do-frontend:1.0.0 .
+
+cd ..
+docker compose up -d
+```
+
+Now you can visit website at `http://localhost:80`
+
+---
 
 ## Notes
 

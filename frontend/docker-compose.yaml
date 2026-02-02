@@ -1,0 +1,7 @@
+services:
+  frontend:
+    image: to-do-frontend:1.0.0
+    container_name: to-do-frontend
+    restart: always
+    ports:
+      - "80:80"

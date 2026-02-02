@@ -1,0 +1,17 @@
+services:
+  frontend:
+    image: to-do-frontend:1.0.0
+    container_name: to-do-frontend
+    restart: always
+    ports:
+      - "80:80"
+
+  backend:
+    image: to-do-backend:1.0.0
+    container_name: to-do-backend
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    command: sh -c "bunx drizzle-kit generate && bunx drizzle-kit migrate && bun run start"
